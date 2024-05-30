@@ -1,0 +1,93 @@
+@startuml
+annotation java.lang.Override
+annotation java.lang.SuppressWarnings
+class Piece.QuanCo
+class Piece.Ten
+class covua.BanCo
+class covua.Bot
+class covua.Checker
+class covua.CoVua
+class covua.Initialize
+class covua.MenuFrame
+class covua.Mouse
+class covua.Move
+class covua.TableCol
+class covua.TableRow
+class covua.ThongTinGame
+class covua.UnDoMove
+class covua.XuLyGame
+class java.awt.AlphaComposite
+class java.awt.Color
+class java.awt.Dimension
+class java.awt.Font
+class java.awt.Graphics
+class java.awt.Graphics2D
+class java.awt.event.ActionEvent
+class java.awt.event.MouseAdapter
+class java.awt.event.MouseEvent
+class java.text.DecimalFormat
+class java.util.ArrayList
+class java.util.EmptyStackException
+class java.util.Random
+class java.util.Stack
+class javax.swing.BorderFactory
+class javax.swing.JButton
+class javax.swing.JFrame
+class javax.swing.JLabel
+class javax.swing.JOptionPane
+class javax.swing.JPanel
+class javax.swing.Timer
+class javax.swing.border.EtchedBorder
+interface java.awt.event.ActionListener
+covua.BanCo ..> java.awt.Color
+covua.BanCo ..> java.awt.Graphics2D
+covua.Bot ..> java.util.ArrayList
+covua.Bot ..> java.util.Random
+covua.Checker ..> Piece.QuanCo
+covua.Checker ..> Piece.Ten
+covua.Initialize ..> java.awt.Color
+covua.Initialize ..> java.awt.Dimension
+covua.Initialize ..> javax.swing.JFrame
+covua.MenuFrame ..> java.lang.SuppressWarnings
+covua.MenuFrame --|> javax.swing.JFrame
+covua.Mouse ..> java.lang.Override
+covua.Mouse ..> Piece.QuanCo
+covua.Mouse --|> java.awt.event.MouseAdapter
+covua.Mouse ..> java.awt.event.MouseEvent
+covua.Move ..> Piece.QuanCo
+covua.TableCol ..> java.awt.Color
+covua.TableCol ..> java.awt.Font
+covua.TableCol ..> java.awt.Graphics
+covua.TableCol ..> java.awt.Graphics2D
+covua.TableCol --|> javax.swing.JPanel
+covua.TableRow ..> java.awt.Color
+covua.TableRow ..> java.awt.Font
+covua.TableRow ..> java.awt.Graphics
+covua.TableRow ..> java.awt.Graphics2D
+covua.TableRow --|> javax.swing.JPanel
+covua.ThongTinGame ..> java.lang.Override
+covua.ThongTinGame ..> Piece.Ten
+covua.ThongTinGame ..> java.awt.Color
+covua.ThongTinGame ..> java.awt.Font
+covua.ThongTinGame ..> java.awt.event.ActionEvent
+covua.ThongTinGame ..> java.awt.event.MouseAdapter
+covua.ThongTinGame ..> java.awt.event.MouseEvent
+covua.ThongTinGame ..> java.text.DecimalFormat
+covua.ThongTinGame ..> javax.swing.BorderFactory
+covua.ThongTinGame ..> javax.swing.JButton
+covua.ThongTinGame ..> javax.swing.JLabel
+covua.ThongTinGame ..> javax.swing.JOptionPane
+covua.ThongTinGame --|> javax.swing.JPanel
+covua.ThongTinGame ..> javax.swing.Timer
+covua.ThongTinGame ..> javax.swing.border.EtchedBorder
+covua.ThongTinGame --|> java.awt.event.ActionListener
+covua.UnDoMove ..> Piece.QuanCo
+covua.XuLyGame ..> java.awt.AlphaComposite
+covua.XuLyGame ..> java.awt.Color
+covua.XuLyGame ..> java.awt.Graphics
+covua.XuLyGame ..> java.awt.Graphics2D
+covua.XuLyGame ..> java.util.ArrayList
+covua.XuLyGame ..> java.util.EmptyStackException
+covua.XuLyGame ..> java.util.Stack
+covua.XuLyGame --|> javax.swing.JPanel
+@enduml

@@ -10,7 +10,8 @@ public class tuong extends QuanCo{
             image = getImage("/resources/w_bishop");
         else
             image = getImage("/resources/b_bishop");
-       
+        
+        point = 300;
     }
     @Override
     public boolean isNuocDiDung(int newCol,int newRow){
@@ -49,4 +50,14 @@ public class tuong extends QuanCo{
         }
         return false;
     }
+
+    @Override
+    public int getPoint() {
+        if (this.row != 0 || this.row != 7){
+            this.point += 25;
+        }
+        return point;
+    }
+    
+    
 }

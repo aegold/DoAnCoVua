@@ -10,7 +10,8 @@ public class vua extends QuanCo{
             image = getImage("/resources/w_king");
         else
             image = getImage("/resources/b_king");
-       
+        
+        point = 0;
     }
     @Override
     public boolean isNuocDiDung(int newCol,int newRow){
@@ -75,5 +76,35 @@ public class vua extends QuanCo{
         return false;
     }
     
+    @Override
+    public int getPoint(){
+        if (!this.isWhite){
+            if (    ((this.col >=0 && this.col < 2) ||
+                     (this.col >=5 && this.col <=7))  && this.row < 2){
+                this.point += 30;
+            }
+            if (this.row == 2){
+                this.point -= 20;
+            }
+            if (this.row >= 3){
+                this.point -= 50;
+            }
+        } else {
+            if (    ((this.col >=0 && this.col < 2) ||
+                     (this.col >=5 && this.col <=7))  && this.row > 5){
+                this.point += 30;
+            }
+            if (this.row == 5){
+                this.point -= 20;
+            }
+            if (this.row <= 4){
+                this.point -= 50;
+            }
+        }
+        return point;
+    }
     
+    public boolean isChecked(int col,int row){
+        return xuly.check.isVuaBiChieu(col, row, this.isWhite);
+    }
 }

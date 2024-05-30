@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 public class TableRow extends JPanel{
-    int width = BanCo.SQUARE_SIZE * BanCo.MAX_ROW + 60;
-    int height = 30;
+    public int width = BanCo.SQUARE_SIZE * BanCo.MAX_ROW + 60;
+    public int height = 30;
     int pos = 25 + BanCo.HALF_SQUARE_SIZE;
     public TableRow() {
         
