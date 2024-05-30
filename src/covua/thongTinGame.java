@@ -291,6 +291,7 @@ public class ThongTinGame extends JPanel implements ActionListener{
         wTimer.start();
     }
     
+    
     class MouseTest extends MouseAdapter{
         @Override
         public void mouseReleased(MouseEvent e){

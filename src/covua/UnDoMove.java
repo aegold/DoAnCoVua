@@ -8,7 +8,7 @@ public class UnDoMove {
     int oldcol;
     int oldrow;
     boolean firstMove = false;
-  
+    boolean thangCap = false;
 
     public UnDoMove(QuanCo quanVuaDi,QuanCo quanBiBat, int oldcol, int oldrow) {
         this.quanVuaDi = quanVuaDi;

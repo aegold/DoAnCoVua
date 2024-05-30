@@ -229,12 +229,15 @@ public class XuLyGame extends JPanel{
         int promotionIndex = nuocdi.quanDuocChon.getColor() ? 0 : 7;
         if (nuocdi.newRow == promotionIndex && !dauMay){
             System.out.println("THANG CAP");
+            nuocdi.thangCap = true;
             totThangCap = getQuan(quanDuocChon.col, quanDuocChon.row);
             thuchienNuocDi(nuocdi);
             prevTurn = currentTurn;
             currentTurn = PAUSE;
             info.stopBothTimers();
+            info.unMake.setEnabled(false);
             info.setButtonOn();
+            return;
             //TODO: SUA ENPASSANT
         }
         if (nuocdi.newRow == promotionIndex && dauMay){
@@ -257,24 +260,28 @@ public class XuLyGame extends JPanel{
     }
     
     public void thangCap(){
+        QuanCo quanThayThe = null;
         switch (quanThangCap) {
             case Ten.MA:
-                q1.add(new ma(this, totThangCap.col, totThangCap.row, totThangCap.getColor(), Ten.MA));
+                quanThayThe = new ma(this, totThangCap.col, totThangCap.row, totThangCap.getColor(), Ten.MA);
                 break;
             case Ten.XE:
-                q1.add(new xe(this, totThangCap.col, totThangCap.row, totThangCap.getColor(), Ten.XE));
+                 quanThayThe = new xe(this, totThangCap.col, totThangCap.row, totThangCap.getColor(), Ten.XE);
                 break;
             case Ten.TUONG:
-                q1.add(new tuong(this, totThangCap.col, totThangCap.row, totThangCap.getColor(), Ten.TUONG));
+                 quanThayThe = new tuong(this, totThangCap.col, totThangCap.row, totThangCap.getColor(), Ten.TUONG);
                 break;
             case Ten.HAU:
-                q1.add(new hau(this, totThangCap.col, totThangCap.row, totThangCap.getColor(), Ten.HAU));
+                 quanThayThe = new hau(this, totThangCap.col, totThangCap.row, totThangCap.getColor(), Ten.HAU);
         }
+        quanThayThe.nuocDauTien = false;
+        q1.add(quanThayThe);
         remove(totThangCap);
         quanThangCap = null;
         currentTurn = prevTurn;
         boolean isWhite = convertInttoBool(currentTurn);
         info.switchTimer(isWhite);
+        info.unMake.setEnabled(true);
         prevTurn = 0;
         repaint(); 
     }
@@ -284,6 +291,9 @@ public class XuLyGame extends JPanel{
             UnDoMove move = new UnDoMove(nuocdi.quanDuocChon,nuocdi.quanBiBat, nuocdi.oldCol, nuocdi.oldRow);
             if (move.quanVuaDi.nuocDauTien){
                 move.firstMove = true;
+            }
+            if (nuocdi.thangCap){
+                move.thangCap = true;
             }
             oldMoveList.push(move);
             
@@ -432,7 +442,7 @@ public class XuLyGame extends JPanel{
             System.out.println("Khong con nuoc di");
             info.showMessageDialog();
         } 
-        if (oldMove != null){
+        if (oldMove != null && !oldMove.thangCap){
             oldMove.quanVuaDi.col = oldMove.oldcol;
             oldMove.quanVuaDi.row = oldMove.oldrow;
             oldMove.quanVuaDi.x = oldMove.oldcol * BanCo.SQUARE_SIZE;
@@ -445,6 +455,15 @@ public class XuLyGame extends JPanel{
             if (oldMove.quanBiBat != null)
                 q1.add(oldMove.quanBiBat);
             
+            changeTurn();
+            repaint();
+        }
+        if (oldMove != null && oldMove.thangCap){
+            QuanCo quanXoa = getQuan(totThangCap.col, totThangCap.row);
+            q1.remove(quanXoa);
+            q1.add(oldMove.quanVuaDi);
+            oldMove.quanVuaDi.row = oldMove.oldrow;
+            oldMove.quanVuaDi.y = oldMove.quanVuaDi.row * BanCo.SQUARE_SIZE;
             changeTurn();
             repaint();
         }
@@ -527,6 +546,7 @@ public class XuLyGame extends JPanel{
         q1.clear();
         currentTurn = WHITE;
         oldMoveList.clear();
+        info.luotdi.setText("Lượt đi của trắng");
         datQuanCo();
         resetVua();
         //private QuanCo vuaTrang = new vua(this,4,7,true,Ten.VUA);
