@@ -100,11 +100,11 @@ public class XuLyGame extends JPanel{
         q1.add(new tot(this,7,6,true,Ten.TOT));
         q1.add(new xe(this,0,7,true,Ten.XE));
         q1.add(new xe(this,7,7,true,Ten.XE));
-//        q1.add(new ma(this,1,7,true,Ten.MA));
-//        q1.add(new ma(this,6,7,true,Ten.MA));
-//        q1.add(new tuong(this,5,7,true,Ten.TUONG));
-//        q1.add(new tuong(this,2,7,true,Ten.TUONG));
-//        q1.add(new hau(this,3,7,true,Ten.HAU));
+        q1.add(new ma(this,1,7,true,Ten.MA));
+        q1.add(new ma(this,6,7,true,Ten.MA));
+        q1.add(new tuong(this,5,7,true,Ten.TUONG));
+        q1.add(new tuong(this,2,7,true,Ten.TUONG));
+        q1.add(new hau(this,3,7,true,Ten.HAU));
         q1.add(vuaTrang);
         //ĐEN
         q1.add(new tot(this,0,1,false,Ten.TOT));
@@ -117,11 +117,11 @@ public class XuLyGame extends JPanel{
         q1.add(new tot(this,7,1,false,Ten.TOT));
         q1.add(new xe(this,0,0,false,Ten.XE));
         q1.add(new xe(this,7,0,false,Ten.XE));
-//        q1.add(new ma(this,1,0,false,Ten.MA));
-//        q1.add(new ma(this,6,0,false,Ten.MA));
-//        q1.add(new tuong(this,2,0,false,Ten.TUONG));
-//        q1.add(new tuong(this,5,0,false,Ten.TUONG));
-//        q1.add(new hau(this,3,0,false,Ten.HAU));
+        q1.add(new ma(this,1,0,false,Ten.MA));
+        q1.add(new ma(this,6,0,false,Ten.MA));
+        q1.add(new tuong(this,2,0,false,Ten.TUONG));
+        q1.add(new tuong(this,5,0,false,Ten.TUONG));
+        q1.add(new hau(this,3,0,false,Ten.HAU));
         q1.add(vuaDen);
         
         if (this.dauMay){
@@ -188,8 +188,10 @@ public class XuLyGame extends JPanel{
         }
         if (!dauMay){
             String gameState = getGameState(nuocdi.quanDuocChon.getColor());
-            if (!gameState.equals("Tiep"))
+            if (!gameState.equals("Tiep")){
                 info.winner.setText(gameState);
+                info.stopBothTimers();
+            }
         } else {
             bot.botMove();
         }
@@ -271,7 +273,7 @@ public class XuLyGame extends JPanel{
         remove(totThangCap);
         quanThangCap = null;
         currentTurn = prevTurn;
-        boolean isWhite =convertInttoBool(currentTurn);
+        boolean isWhite = convertInttoBool(currentTurn);
         info.switchTimer(isWhite);
         prevTurn = 0;
         repaint(); 
