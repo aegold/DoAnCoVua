@@ -11,6 +11,7 @@ public class hau extends QuanCo{
         else
             image = getImage("/resources/b_queen");
        
+        point = 900;
     }
     @Override
     public boolean isNuocDiDung(int newCol,int newRow){
@@ -83,4 +84,16 @@ public class hau extends QuanCo{
         
         return false;
     }
+
+    @Override
+    public int getPoint() {
+        if (this.row == 1 || this.row == 6){
+            this.point += 25;
+        }
+        if (this.row > 1 && this.row < 6){
+            this.point += 75;
+        }
+        return point;
+    }
+    
 }

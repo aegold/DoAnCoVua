@@ -10,6 +10,8 @@ public class Move {
     
     QuanCo quanDuocChon;
     QuanCo quanBiBat;
+    QuanCo quanThangCap = null;
+    QuanCo quanNhapThanh = null;
 
     public Move(XuLyGame xuly, QuanCo quan,int newCol, int newRow) {
         this.oldCol = quan.col; // vị trí hiện tại

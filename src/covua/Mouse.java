@@ -61,7 +61,7 @@ public class Mouse extends MouseAdapter{
             else
                return false;
         }
-        if (xuly.currentTurn == 2){
+        if (xuly.currentTurn == -1){
             if (!selectedPiece.getColor())
                 return true;
             else

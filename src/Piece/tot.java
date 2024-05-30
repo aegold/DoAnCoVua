@@ -11,7 +11,8 @@ public class tot extends QuanCo{
             image = getImage("/resources/w_pawn");
         else
             image = getImage("/resources/b_pawn");
-       
+        
+        point = 100;
     }
     @Override
     public boolean isNuocDiDung(int newCol,int newRow){
@@ -42,7 +43,8 @@ public class tot extends QuanCo{
                 xuly.getQuan(newCol, newRow + colorMove)!= null &&
                 xuly.getQuan(newCol, newRow + colorMove).getColor() != this.isWhite &&
                 xuly.getQuan(newCol, newRow + colorMove).di2Nuoc &&
-                xuly.getQuan(newCol, newRow + colorMove).row == this.row
+                xuly.getQuan(newCol, newRow + colorMove).row == this.row &&
+                Math.abs(newCol - this.col) == 1
                 ){
                 return true;
         }
@@ -52,6 +54,34 @@ public class tot extends QuanCo{
     @Override
     public boolean nuocDiBiChan(int col,int row){
         return false;
+    }
+    
+    public int getPoint(){
+        if (!this.isWhite){
+            if (this.row > 2 && this.row < 5){
+                this.point += 50;
+            }
+            if (this.row == 6){
+                this.point += 100;
+            }
+            if (this.row == 7){
+                this.point += 250;
+            }
+        } else {
+            if (this.row > 2 && this.row < 5){
+                this.point += 50;
+            }
+            if (this.row == 1){
+                this.point += 100;
+            }
+            if (this.row == 0){
+                this.point += 250;
+            }
+        }
+        if (this.col > 1 && this.col < 6){
+            this.point += 100;
+        }
+        return this.point;
     }
     
 }

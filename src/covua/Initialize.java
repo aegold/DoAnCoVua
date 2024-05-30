@@ -4,16 +4,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
-public class Pvp {
+public class Initialize {
     JFrame frame = new JFrame("Cờ Vua");
-    thongTinGame info = new thongTinGame();
+    ThongTinGame info = new ThongTinGame();
     XuLyGame panel = XuLyGame.getInstance(info);
     TableRow trow = new TableRow();
     TableRow trow1 = new TableRow();
     TableCol tcol = new TableCol();
     TableCol tcol1 = new TableCol();
-    public Pvp() {
-       
+    
+    private static Initialize instance;
+    
+    private Initialize() {
+        
         panel.setBounds(30, 30, panel.CDAI, panel.CRONG);
         info.setBounds(780, 0, 300, 817);
         trow.setBounds(0, 0, trow.width, trow.height);
@@ -38,4 +41,16 @@ public class Pvp {
         frame.setVisible(true);   
     }
     
+    public static Initialize getInstance(){
+        if (instance == null)
+            instance = new Initialize();
+        return instance;
+    }
+    
+    public void closing(){
+        frame.getContentPane().removeAll();
+        frame.setVisible(false);
+        MenuFrame menu = new MenuFrame();
+        menu.setVisible(true);
+    }
 }

@@ -22,7 +22,6 @@ public class XuLyGame extends JPanel{
     BanCo banco = new BanCo();
     
     // Khởi tạo quân cờ
-    ArrayList <QuanCo> q = new ArrayList<>(); // dự phòng
     public ArrayList <QuanCo> q1 = new ArrayList<>();
     
     // Chọn quân cờ
@@ -37,12 +36,12 @@ public class XuLyGame extends JPanel{
     
     // Lượt đi
     public final int WHITE = 1;
-    public final int BLACK = 2;
+    public final int BLACK = -1;
     public final int PAUSE = 3;
     public int currentTurn = WHITE; 
     public int prevTurn;
     
-    thongTinGame info;
+    ThongTinGame info;
     public int enPassantCol = -1;
     public int enPassantRow = -1;
     
@@ -52,10 +51,15 @@ public class XuLyGame extends JPanel{
     // unmake move
     Stack<UnDoMove> oldMoveList = new Stack<>();
     
-    private final QuanCo vuaTrang = new vua(this,4,7,true,Ten.VUA);
-    private final QuanCo vuaDen = new vua(this,4,0,false,Ten.VUA);
+    private QuanCo vuaTrang = new vua(this,4,7,true,Ten.VUA);
+    private QuanCo vuaDen = new vua(this,4,0,false,Ten.VUA);
     
-    private XuLyGame(thongTinGame info){
+    // đấu máy
+    Bot bot = new Bot(this);
+    boolean dauMay = false;
+    
+    
+    private XuLyGame(ThongTinGame info){
         //setPreferredSize(new Dimension(CDAI,CRONG));
         setSize(CDAI,CRONG);
         this.addMouseListener(m);
@@ -63,12 +67,11 @@ public class XuLyGame extends JPanel{
         
         //testChieuTuong();
         datQuanCo();
-        copyQuan(q, q1);
         this.info = info;
     }
     
     // SINGLETON
-    public static XuLyGame getInstance(thongTinGame info){
+    public static XuLyGame getInstance(ThongTinGame info){
         if (instance == null)
             instance = new XuLyGame(info);
         return instance;
@@ -81,45 +84,49 @@ public class XuLyGame extends JPanel{
     }
     
     public void testChieuTuong(){
-        q.add(new hau(this, 2, 1, true, Ten.HAU));
-        q.add(vuaDen);
-        q.add(vuaTrang);
+        q1.add(new hau(this, 2, 1, true, Ten.HAU));
+        q1.add(vuaDen);
+        q1.add(vuaTrang);
     }
     
     public void datQuanCo() {
-        q.add(new tot(this,0,6,true,Ten.TOT));
-        q.add(new tot(this,1,6,true,Ten.TOT));
-        q.add(new tot(this,2,6,true,Ten.TOT));
-        q.add(new tot(this,3,6,true,Ten.TOT));
-        q.add(new tot(this,4,6,true,Ten.TOT));
-        q.add(new tot(this,5,6,true,Ten.TOT));
-        q.add(new tot(this,6,6,true,Ten.TOT));
-        q.add(new tot(this,7,6,true,Ten.TOT));
-        q.add(new xe(this,0,7,true,Ten.XE));
-        q.add(new xe(this,7,7,true,Ten.XE));
-        q.add(new ma(this,1,7,true,Ten.MA));
-        q.add(new ma(this,6,7,true,Ten.MA));
-        q.add(new tuong(this,5,7,true,Ten.TUONG));
-        q.add(new tuong(this,2,7,true,Ten.TUONG));
-        q.add(new hau(this,3,7,true,Ten.HAU));
-        q.add(vuaTrang);
+        q1.add(new tot(this,0,6,true,Ten.TOT));
+        q1.add(new tot(this,1,6,true,Ten.TOT));
+        q1.add(new tot(this,2,6,true,Ten.TOT));
+        q1.add(new tot(this,3,6,true,Ten.TOT));
+        q1.add(new tot(this,4,6,true,Ten.TOT));
+        q1.add(new tot(this,5,6,true,Ten.TOT));
+        q1.add(new tot(this,6,6,true,Ten.TOT));
+        q1.add(new tot(this,7,6,true,Ten.TOT));
+        q1.add(new xe(this,0,7,true,Ten.XE));
+        q1.add(new xe(this,7,7,true,Ten.XE));
+//        q1.add(new ma(this,1,7,true,Ten.MA));
+//        q1.add(new ma(this,6,7,true,Ten.MA));
+//        q1.add(new tuong(this,5,7,true,Ten.TUONG));
+//        q1.add(new tuong(this,2,7,true,Ten.TUONG));
+//        q1.add(new hau(this,3,7,true,Ten.HAU));
+        q1.add(vuaTrang);
         //ĐEN
-        q.add(new tot(this,0,1,false,Ten.TOT));
-        q.add(new tot(this,1,1,false,Ten.TOT));
-        q.add(new tot(this,2,1,false,Ten.TOT));
-        q.add(new tot(this,3,1,false,Ten.TOT));
-        q.add(new tot(this,4,1,false,Ten.TOT));
-        q.add(new tot(this,5,1,false,Ten.TOT));
-        q.add(new tot(this,6,1,false,Ten.TOT));
-        q.add(new tot(this,7,1,false,Ten.TOT));
-        q.add(new xe(this,0,0,false,Ten.XE));
-        q.add(new xe(this,7,0,false,Ten.XE));
-        q.add(new ma(this,1,0,false,Ten.MA));
-        q.add(new ma(this,6,0,false,Ten.MA));
-        q.add(new tuong(this,2,0,false,Ten.TUONG));
-        q.add(new tuong(this,5,0,false,Ten.TUONG));
-        q.add(new hau(this,3,0,false,Ten.HAU));
-        q.add(vuaDen);
+        q1.add(new tot(this,0,1,false,Ten.TOT));
+        q1.add(new tot(this,1,1,false,Ten.TOT));
+        q1.add(new tot(this,2,1,false,Ten.TOT));
+        q1.add(new tot(this,3,1,false,Ten.TOT));
+        q1.add(new tot(this,4,1,false,Ten.TOT));
+        q1.add(new tot(this,5,1,false,Ten.TOT));
+        q1.add(new tot(this,6,1,false,Ten.TOT));
+        q1.add(new tot(this,7,1,false,Ten.TOT));
+        q1.add(new xe(this,0,0,false,Ten.XE));
+        q1.add(new xe(this,7,0,false,Ten.XE));
+//        q1.add(new ma(this,1,0,false,Ten.MA));
+//        q1.add(new ma(this,6,0,false,Ten.MA));
+//        q1.add(new tuong(this,2,0,false,Ten.TUONG));
+//        q1.add(new tuong(this,5,0,false,Ten.TUONG));
+//        q1.add(new hau(this,3,0,false,Ten.HAU));
+        q1.add(vuaDen);
+        
+        if (this.dauMay){
+            info.unMake.setEnabled(false);
+        }
     }
     
     //lấy quân ở vị trí con trỏ chuột
@@ -179,20 +186,25 @@ public class XuLyGame extends JPanel{
         } else {
             thuchienNuocDi(nuocdi);
         }
-        
-        String gameState = getGameState(nuocdi.quanDuocChon.getColor());
-        info.winner.setText(gameState);
+        if (!dauMay){
+            String gameState = getGameState(nuocdi.quanDuocChon.getColor());
+            if (!gameState.equals("Tiep"))
+                info.winner.setText(gameState);
+        } else {
+            bot.botMove();
+        }
     }
     
     private void nhapThanhPhai(Move nuocdi) {
         System.out.println("nhap thanh phai");
         if (nuocdi.quanDuocChon.getColor()){
             nuocdi.quanBiBat = getQuan(7, 7);
-            q1.add(new xe(this, 5, 7, true, Ten.XE));
+            nuocdi.quanNhapThanh = new xe(this, 5, 7, true, Ten.XE);
         }else {
             nuocdi.quanBiBat = getQuan(7, 0);
-            q1.add(new xe(this, 5, 0, false, Ten.XE));
+            nuocdi.quanNhapThanh = new xe(this, 5, 0, false, Ten.XE);
         }
+        q1.add(nuocdi.quanNhapThanh);
         thuchienNuocDi(nuocdi);
     }
     
@@ -200,25 +212,33 @@ public class XuLyGame extends JPanel{
         System.out.println("nhap thanh trai");
         if (nuocdi.quanDuocChon.getColor()){
             nuocdi.quanBiBat = getQuan(0, 7);
-            q1.add(new xe(this,3,7,true,Ten.XE));
+            nuocdi.quanNhapThanh = new xe(this,3,7,true,Ten.XE);
+            
         }else {
             nuocdi.quanBiBat = getQuan(0, 0);
-            q1.add(new xe(this,3,0,false,Ten.XE));
+            nuocdi.quanNhapThanh = new xe(this,3,0,false,Ten.XE);
         }
+        q1.add(nuocdi.quanNhapThanh);
         thuchienNuocDi(nuocdi);
     }
     
     private void nuocdiTot(Move nuocdi){
         //PROMOTION
         int promotionIndex = nuocdi.quanDuocChon.getColor() ? 0 : 7;
-        if (nuocdi.newRow == promotionIndex){
+        if (nuocdi.newRow == promotionIndex && !dauMay){
             System.out.println("THANG CAP");
             totThangCap = getQuan(quanDuocChon.col, quanDuocChon.row);
             thuchienNuocDi(nuocdi);
             prevTurn = currentTurn;
             currentTurn = PAUSE;
+            info.stopBothTimers();
             info.setButtonOn();
             //TODO: SUA ENPASSANT
+        }
+        if (nuocdi.newRow == promotionIndex && dauMay){
+            nuocdi.quanThangCap = new hau(this, nuocdi.newCol, nuocdi.newRow, quanDuocChon.getColor(), Ten.HAU);
+            remove(quanDuocChon);
+            q1.add(nuocdi.quanThangCap);
         }
         if (nuocdi.newRow == enPassantRow && nuocdi.newCol == enPassantCol && 
                 Math.abs(nuocdi.newCol - nuocdi.quanDuocChon.col) == 1){
@@ -251,20 +271,24 @@ public class XuLyGame extends JPanel{
         remove(totThangCap);
         quanThangCap = null;
         currentTurn = prevTurn;
+        boolean isWhite =convertInttoBool(currentTurn);
+        info.switchTimer(isWhite);
         prevTurn = 0;
         repaint(); 
     }
     
     private void thuchienNuocDi(Move nuocdi){
-        UnDoMove move = new UnDoMove(nuocdi.quanDuocChon,nuocdi.quanBiBat, nuocdi.oldCol, nuocdi.oldRow);
-        if (move.quanVuaDi.nuocDauTien){
-            move.firstMove = true;
+        if (!dauMay){
+            UnDoMove move = new UnDoMove(nuocdi.quanDuocChon,nuocdi.quanBiBat, nuocdi.oldCol, nuocdi.oldRow);
+            if (move.quanVuaDi.nuocDauTien){
+                move.firstMove = true;
+            }
+            oldMoveList.push(move);
+            
+            String mau = nuocdi.quanDuocChon.getColor() ? "Trang" : "Den";
+            System.out.println("quan " + nuocdi.quanDuocChon.ten.toString() +" "+mau+" da di cot "
+                + (nuocdi.newCol+1)  +" hang " +(nuocdi.newRow +1 ) );
         }
-        oldMoveList.push(move);
-        
-        String mau = nuocdi.quanDuocChon.getColor() ? "Trang" : "Den";
-        System.out.println("quan " + nuocdi.quanDuocChon.ten.toString() +" "+mau+" da di cot "
-        + (nuocdi.newCol+1)  +" hang " +(nuocdi.newRow +1 ) );
         nuocdi.quanDuocChon.col = nuocdi.newCol;
         nuocdi.quanDuocChon.row = nuocdi.newRow;
         nuocdi.quanDuocChon.x = nuocdi.newCol * BanCo.SQUARE_SIZE;
@@ -279,19 +303,21 @@ public class XuLyGame extends JPanel{
     }
     
     private void changeTurn(){
-        if (currentTurn == WHITE){
-            currentTurn = BLACK;
-            info.luotdi.setText("Đến lượt của Đen");
-        }
-        else if (currentTurn == BLACK){
-            currentTurn = WHITE;
-            info.luotdi.setText("Đến lượt của Trắng");
-        }
+            if (currentTurn == WHITE){
+                currentTurn = BLACK;
+                info.luotdi.setText("Lượt đi của Đen");
+                info.switchTimer(false);
+            }
+            else if (currentTurn == BLACK){
+                currentTurn = WHITE;
+                info.luotdi.setText("Lượt đi của Trắng");
+                info.switchTimer(true);
+            }
     }
     
     public void remove(QuanCo quanBiBat){
         if (quanBiBat != null){
-            System.out.println("Xoa quan" + quanBiBat.ten);
+            //System.out.println("Xoa quan" + quanBiBat.ten);
             q1.remove(quanBiBat);
         }
     }
@@ -338,7 +364,7 @@ public class XuLyGame extends JPanel{
         }
     }
     
-    private boolean convertInttoBool(int x){
+    public boolean convertInttoBool(int x){
         if (x == 1)
             return true;
         
@@ -367,6 +393,24 @@ public class XuLyGame extends JPanel{
             }
         }
         System.out.println("Dieu kien Sai");
+        return "Tiep";
+    }
+    
+    public String getGameStateVsBot(boolean isWhite){
+        if (khongConNuoc(!isWhite)){
+            System.out.println("True");
+            boolean turn = convertInttoBool(currentTurn);
+            QuanCo vua = timVua(turn);
+            if (vua != null){
+                if (vua.biChieu(vua.col, vua.row)){
+                    System.out.println(isWhite ? "Trang win" :"Den win");
+                    return isWhite ? "Trắng Thắng!" :"Đen Thắng!"; 
+                } else {
+                    System.out.println("Hoa");
+                    return "Hoà";
+                }
+            }
+        }
         return "Tiep";
     }
     
@@ -402,5 +446,94 @@ public class XuLyGame extends JPanel{
             changeTurn();
             repaint();
         }
+    }
+    
+    public int countPoint(boolean isWhite){
+        int materialPoint  = 0;
+        for (QuanCo q : q1){
+            if (q.getColor() == isWhite){
+                materialPoint += q.getPoint();
+            }
+        }
+        return materialPoint;
+    }
+    
+    public boolean getTurn(){
+        if (currentTurn == WHITE){
+               return true;
+        }
+        return false;
+    }
+    
+    public void botTaoNuocAo(Move move){
+        if (move != null){
+            QuanCo quan = move.quanDuocChon;
+            QuanCo quanBiXoa = move.quanBiBat;
+            int col = move.newCol;
+            int row = move.newRow;
+            
+            quan.col = col;
+            quan.row = row;
+            quan.x = col * BanCo.SQUARE_SIZE;
+            quan.y = row * BanCo.SQUARE_SIZE;
+            
+            if (quan.ten == Ten.TOT && (quan.row == 0 || quan.row == 7)){
+                move.quanThangCap = new hau(this, move.newCol, move.newRow, quan.getColor(), Ten.HAU);
+                remove(quan);
+                q1.add(move.quanThangCap);
+            }
+            remove(quanBiXoa);
+            changeTurn();
+        }
+    }
+    
+    public void botXoaNuocAo(Move move){
+        QuanCo quan = move.quanDuocChon;
+        QuanCo quanBiXoa = move.quanBiBat;
+        int col = move.oldCol;
+        int row = move.oldRow;
+        
+        quan.col = col;
+        quan.row = row;
+        quan.x = col * BanCo.SQUARE_SIZE;
+        quan.y = row * BanCo.SQUARE_SIZE;
+        if (quanBiXoa != null){
+            q1.add(quanBiXoa);
+        }
+        if (quan.ten == Ten.TOT && move.quanThangCap != null){
+            q1.add(quan);
+            remove(move.quanThangCap);
+        }
+        if (quan.ten == Ten.VUA && move.quanNhapThanh != null){
+            remove(move.quanNhapThanh);
+        }
+        changeTurn();
+    }
+    
+    private void resetVua(){
+        vuaTrang.col = 4;
+        vuaTrang.row = 7;
+        vuaDen.col = 4;
+        vuaDen.row = 0;
+        vuaTrang.x = vuaTrang.col * BanCo.SQUARE_SIZE;
+        vuaDen.x = vuaDen.col * BanCo.SQUARE_SIZE;
+        vuaTrang.y = vuaTrang.row * BanCo.SQUARE_SIZE;
+        vuaDen.y = vuaDen.row * BanCo.SQUARE_SIZE;
+    }
+    
+    public void resetApplication(){
+        q1.clear();
+        currentTurn = WHITE;
+        oldMoveList.clear();
+        datQuanCo();
+        resetVua();
+        //private QuanCo vuaTrang = new vua(this,4,7,true,Ten.VUA);
+        //private QuanCo vuaDen = new vua(this,4,0,false,Ten.VUA);
+        
+        for (QuanCo q:q1){
+            q.nuocDauTien = true;
+        }
+        info.resetTimer();
+        repaint();
     }
 }
