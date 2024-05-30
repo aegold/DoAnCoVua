@@ -21,8 +21,6 @@ public class QuanCo {
     //Nước đặc biệt
     public boolean isEnpassant = false;
     public int colorMove = isWhite ? 1 : -1 ;
-    // điểm
-    int point;
    
     public QuanCo(XuLyGame xuly,int col,int row,boolean isWhite,Ten ten){
         this.col = col;
@@ -84,7 +82,4 @@ public class QuanCo {
                 && !diCungO(col, row);
     }
     
-    public int getPoint(){
-        return this.point;
-    }
 }

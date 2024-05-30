@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 public class TableCol extends JPanel{
-    public int width = 30;
-    public int height = BanCo.SQUARE_SIZE * BanCo.MAX_COL;
+    int width = 30;
+    int height = BanCo.SQUARE_SIZE * BanCo.MAX_COL;
     int pos =BanCo.HALF_SQUARE_SIZE + 10;
     public TableCol() {
         

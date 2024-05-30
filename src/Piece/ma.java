@@ -11,7 +11,6 @@ public class ma extends QuanCo{
         else
             image = getImage("/resources/b_knight");
        
-        point = 300;
     }
     
     @Override
@@ -23,16 +22,4 @@ public class ma extends QuanCo{
     public boolean nuocDiBiChan(int newCol,int newRow){
         return false;
     }
-
-    @Override
-    public int getPoint() {
-        if (this.col >= 2 && this.col <=5 && this.row >= 2 && this.row <= 5){
-            this.point += 50;
-        }
-        if (this.col == 0 || this.col == 7 || this.row == 0 || this.row == 7){
-            this.point -= 55;
-        }
-        return this.point;
-    }
-    
 }
